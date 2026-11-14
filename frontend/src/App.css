@@ -46,6 +46,7 @@
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
+  background-color: #fff;
 }
 
 .transfer-box h3 {
@@ -66,6 +67,22 @@
   padding: 8px;
   margin-top: 4px;
   box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.lookup-success {
+  display: block;
+  margin-top: 4px;
+  color: #1565c0;
+  font-size: 13px;
+}
+
+.lookup-error {
+  display: block;
+  margin-top: 4px;
+  color: #d32f2f;
+  font-size: 13px;
 }
 
 .btn-submit {
@@ -76,6 +93,7 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .btn-submit:disabled {
@@ -85,15 +103,62 @@
 
 .history-box {
   margin-top: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.history-box h3 {
+  margin-top: 0;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.tab-btn {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background-color: #f8fafc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.tab-btn.active {
+  background-color: #1976d2;
+  color: #fff;
+  border-color: #1976d2;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 180px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
 }
 
 .history-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .history-item {
-  padding: 12px;
+  padding: 12px 4px;
   border-bottom: 1px solid #eee;
   display: flex;
   justify-content: space-between;

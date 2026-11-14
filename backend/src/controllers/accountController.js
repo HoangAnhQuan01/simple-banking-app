@@ -26,13 +26,44 @@ exports.getMyAccount = async (req, res) => {
   }
 };
 
+// GET /api/accounts/lookup/:account_number - Tra cứu tên chủ tài khoản nhận
+exports.lookupAccount = async (req, res) => {
+  try {
+    const { account_number } = req.params;
+    const account = await Account.findOne({ account_number }).populate('user_id', 'full_name');
+
+    if (!account || !account.user_id) {
+      return res.status(404).json({ message: 'Không tìm thấy chủ tài khoản này!' });
+    }
+
+    return res.status(200).json({
+      account_number: account.account_number,
+      full_name: account.user_id.full_name,
+    });
+  } catch (error) {
+    console.error('Lookup account error:', error);
+    return res.status(500).json({ message: 'Lỗi khi tra cứu tài khoản!' });
+  }
+};
+
 // POST /api/accounts/transfer - Chuyển tiền nội bộ
 exports.transfer = async (req, res) => {
   try {
-    const { to_account_number, amount, description } = req.body;
+    const { to_account_number, amount, description,idempotency_key } = req.body;
     const transferAmount = Number(amount);
     if (!to_account_number || !transferAmount || transferAmount <= 0) {
       return res.status(400).json({ message: 'Số tiền hoặc tài khoản nhận không hợp lệ!' });
+    }
+
+    // Kiểm tra chống trùng lặp giao dịch (Idempotency)
+    if (idempotency_key) {
+      const existingTx = await Transaction.findOne({ idempotency_key });
+      if (existingTx) {
+        return res.status(409).json({
+          message: 'Giao dịch này đã được xử lý trước đó (chống trùng lặp)!',
+          transaction: existingTx,
+        });
+      }
     }
 
     // 1. Tìm tài khoản người gửi (từ JWT token)

@@ -7,6 +7,8 @@ const transactionSchema = new mongoose.Schema(
     amount: { type: Number, required: true },
     description: { type: String, default: 'Chuyển tiền nội bộ' },
     status: { type: String, enum: ['success', 'failed'], default: 'success' },
+    // Khóa chống trùng lặp giao dịch (Idempotency Key)
+    idempotency_key: { type: String, unique: true, sparse: true },
   },
   { timestamps: true }
 );
